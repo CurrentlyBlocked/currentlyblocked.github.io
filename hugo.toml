@@ -1,55 +1,99 @@
-baseURL = 'https://craftedbyjosh.github.io/'
-languageCode = 'en-uk'
-title = 'CraftedByJosh'
-theme = "archie"
+baseURL = 'https://currentlyblocked.github.io/'
+languageCode = 'en-gb'
+title = 'CurrentlyBlocked'
+theme = "hello-friend-ng"
+pagination.pagerSize = 10
 
-copyright = "© CraftedByJosh"
-# Code Highlight
-# pygmentsstyle = "monokai"
-# pygmentscodefences = true
-# pygmentscodefencesguesssyntax = true
-
-# disqusShortname = "yourDisqusShortname"
-
-pagination.pagerSize=5 # articles per page
+[markup.goldmark.renderer]
+    unsafe = true
 
 [params]
-	mode="auto" # color-mode → light,dark,toggle or auto
-	useCDN=false # don't use CDNs for fonts and icons, instead serve them locally.
-	subtitle = "A small personal blog about DevOps, Cloud, and Automation by me, Josh. Currently working as a SRE based in the UK."
-	mathjax = false # enable MathJax support
-	katex = false # enable KaTeX support
+  dateform         = "Jan 2, 2006"
+  dateformShort    = "Jan 2"
+  dateformNum      = "2006-01-02"
+  dateformNumTime  = "2006-01-02 15:04"
 
-# Social Tags
+  portrait.path = "/img/logo.png"
+  homeSubtitle = "Senior SRE | Doing my best to build simple systems for complex problems."
 
-[[params.social]]
-name = "GitHub"
-icon = "github"
-url = "https://github.com/CraftedByJosh"
+  defaultTheme = "dark"
+  showReadTime = true
+  enableSharingButtons = false
+  enableGlobalLanguageMenu = false
 
-[[params.social]]
-name = "LinkedIn"
-icon = "linkedin"
-url = "https://linkedin.com/in/devops-josh"
+  # Metadata
+#   description = "Pragmatic Site Reliability Engineering and Security."
+#   keywords = "SRE, Security, Go, Cloud, Infrastructure"
 
-# Main menu Items
+# [taxonomies]
+#     category = "blog"
+#     tag      = "tags"
 
-[[menu.main]]
-name = "Home"
-url = "/"
-weight = 1
+[languages]
+  [languages.en]
+    title = "I'm CurrentlyBlocked"
+    copyright = "By CurrentlyBlocked."
+    readOtherPosts = "Read more"
 
-[[menu.main]]
-name = "All posts"
-url = "/posts"
-weight = 2
+    [languages.en.params]
+      subtitle = ""
 
-[[menu.main]]
-name = "About"
-url = "/about"
-weight = 3
+      [languages.en.params.logo]
+        path = "/img/logo.png"
+        alt = "Currently blocked"
 
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 4
+  # --- MAIN NAVIGATION ---
+[menus]
+
+  [[menus.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+    hasChildren = true
+
+  [[menus.main]]
+    identifier = "overview"
+    name = "Overview"
+    url = "/about/overview"
+    weight = 11
+    parent = "about"
+
+  [[menus.main]]
+    identifier = "experience"
+    name = "Experience"
+    url = "/about/experience"
+    weight = 12
+    parent = "about"
+
+  [[menus.main]]
+    identifier = "github"
+    name       = "GitHub"
+    url        = "https://github.com/currentlyblocked"
+    weight = 20
+    [menus.main.params]
+      newtab = true
+
+  # [[menus.main]]
+  #   identifier = "blog"
+  #   name       = "Posts"
+  #   url        = "/posts"
+
+  [[menus.main]]
+    identifier = "toolbox"
+    name  = "Toolbox"
+    url = "/toolbox/"
+    hasChildren = true
+    weight = 30
+
+  [[menus.main]]
+    identifier = "ratio"
+    name = "Ratio"
+    url = "/toolbox/ratio/"
+    parent = "toolbox"
+
+  [[menus.main]]
+    identifier = "wisdom"
+    name       = "Reading List"
+    url        = "/reading"
+    weight = 40
