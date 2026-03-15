@@ -93,7 +93,22 @@ pagination.pagerSize = 10
     parent = "toolbox"
 
   [[menus.main]]
-    identifier = "wisdom"
-    name       = "Reading List"
-    url        = "/reading"
+    identifier = "library"
+    name = "Library"
+    url = "/library/"
+    hasChildren = true
     weight = 40
+
+  [[menus.main]]
+    identifier = "quotes"
+    name = "Quotes"
+    url = "/library/quotes"
+    parent = "library"
+    weight = 41
+
+  [[menus.main]]
+    identifier = "reading"
+    name       = "Reading"
+    url        = "/library/reading"
+    parent = "library"
+    weight = 42

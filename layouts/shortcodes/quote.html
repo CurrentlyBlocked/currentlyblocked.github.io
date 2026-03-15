@@ -1,0 +1,147 @@
+<head>
+<style>
+    :root {
+        --card-bg: var(--background, #292a2d);
+        --accent: var(--theme-color, #2492db);
+        --border: var(--border-color, #3b3d42);
+    }
+
+    .featured-quote {
+        margin: 1rem 0 3rem 0;
+        padding: 2rem;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        background-color: var(--card-bg);
+        transition: border-color 0.3s ease;
+    }
+
+    .featured-quote footer {
+        text-align: right;
+        color: var(--accent);
+        opacity: 0.8;
+    }
+
+    .featured-quote:hover {
+        border-color: var(--accent);
+    }
+
+    #qotd {
+        font-size: 1.6rem;
+        font-weight: 500;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+    }
+
+    .library {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .quote-card {
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: var(--card-bg);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .quote-card:hover {
+        border-color: var(--accent);
+        /* Use tranform to create a very slight lift effect */
+        transform: translateY(-2px); 
+    }
+
+    .quote-card p {
+        margin: 0 0 1rem 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .quote-card footer {
+        font-size: 0.8rem;
+        color: var(--accent);
+        opacity: 0.8;
+        text-align: right;
+    }
+</style>
+</head>
+
+<body onload="QuoteOfTheDay()">
+
+    <h2>Quote of the Day</h2>
+    <div class="featured-quote">
+        <div id="qotd"></div>
+        <footer id="qotd_author"></footer>
+    </div>
+
+    <p>
+        I'm a big believer in standing on the shoulders of giants. If I only relied on what I could figure out by myself, I'm not quite sure how far I'd get 😅.
+        </br></br>
+        Luckily(?) most of the problems we face have already been solved or suffered through by someone else. So we might as well take those lessons onboard.
+        </br></br>
+        I'd love to host every full text that has shaped my thinking, but that just isn't practical. Instead, I'm just gonna keep a collection of borrowed wisdom here in the form of quotes I like.
+    </p>
+
+    <h2>Quote Library</h2>
+    <div id="quote_library" class="library"></div>
+
+</body>
+
+<script>
+    
+    async function QuoteOfTheDay() {
+        const quote = document.getElementById('qotd');
+        const author = document.getElementById('qotd_author');
+        let quotes
+
+        try {
+            const response = await fetch('/quotes.json');
+            const data = await response.json();
+            quotes = data
+        } catch (error) {
+            console.error('Error loading JSON:', error);
+        }
+
+        const daysSinceEpoch = Math.floor(Date.now() / 86400000);
+        // Use modulo to loop deterministically
+        const dailyIndex = daysSinceEpoch % quotes.length;
+        const quoteOfTheDay = quotes[dailyIndex];
+
+        quote.innerText = quoteOfTheDay.quote
+        author.innerText = `— ${quoteOfTheDay.author}`
+
+        quotes.splice(dailyIndex, 1) // Remove QOTD from quotes
+
+        loadLibrary(quotes) // Use the remainder of the quotes for the library
+    }
+
+    function loadLibrary(quotes) {
+        const shuffledQuotes = shuffleArray(quotes);
+        const library = document.getElementById("quote_library");
+
+        shuffledQuotes.forEach(q => {
+            const element = document.createElement('div');
+            element.className = 'quote-card';
+            element.innerHTML = `
+                <p>${q.quote}</p>
+                <footer>— ${q.author}</footer>
+            `;
+            library.append(element);
+        });   
+    }
+
+    // Fisher-Yates Shuffle to mix things up a bit
+    // I am not an expert but I understand this to be a efficient O(n) algo.
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+</script>
